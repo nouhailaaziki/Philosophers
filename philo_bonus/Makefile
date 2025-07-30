@@ -7,25 +7,25 @@ GREEN = \033[0;32m
 RED = \033[0;31m
 RESET = \033[0m
 
-MANDATORY =	main.c utils.c simulation.c events.c routine.c
+BONUS =	routine_bonus.c simulation_bonus.c main_bonus.c utils_bonus.c
 
-OBJM = $(MANDATORY:.c=.o)
+OBJB = $(BONUS:.c=.o)
 
-NAME = philo
+NAME = philo_bonus
 
 all: $(NAME)
 
-$(NAME) : $(OBJM)
+$(NAME) : $(OBJB)
 	@echo "${YELLOW}🚀 Launching compilation...${RESET}"
-	$(COMPILER) $(CFLAGS) $(OBJM) -o $(NAME)
+	$(COMPILER) $(CFLAGS) $(OBJB) -o $(NAME)
 	@echo "${GREEN}✅ ${NAME} successfully compiled!${RESET}"
 
 
-%.o: %.c mindcore.h
+%.o: %.c mindcore_bonus.h
 	$(COMPILER) $(CFLAGS) -c $< -o $@
 
 clean:
-	$(RM) $(OBJM)
+	$(RM) $(OBJB)
 	@echo "${RED}🗑 Object files removed!${RESET}"
 
 fclean: clean

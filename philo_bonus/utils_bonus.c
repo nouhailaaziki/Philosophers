@@ -1,18 +1,50 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   input_guard.c                                      :+:      :+:    :+:   */
+/*   utils_bonus.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: noaziki <noaziki@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/25 10:18:55 by noaziki           #+#    #+#             */
-/*   Updated: 2025/04/25 17:02:06 by noaziki          ###   ########.fr       */
+/*   Created: 2025/07/13 11:07:27 by noaziki           #+#    #+#             */
+/*   Updated: 2025/07/15 16:50:56 by noaziki          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philosophers.h"
+#include "mindcore_bonus.h"
 
-long	ft_atoi(const char *str)
+long	get_time(void)
+{
+	struct timeval	tv;
+
+	gettimeofday(&tv, NULL);
+	return ((tv.tv_sec * 1000) + (tv.tv_usec / 1000));
+}
+
+void	precise_usleep(long duration_ms)
+{
+	long	start_time;
+
+	start_time = get_time();
+	while ((get_time() - start_time) < duration_ms)
+		usleep(50);
+}
+
+void	print_status(t_philo *philo, char *status, int is_dead)
+{
+	long	timestamp;
+
+	sem_wait(philo->params->write_sem);
+	timestamp = get_time() - philo->params->start_time;
+	if (is_dead)
+		printf("%ld %d %s\n", timestamp, philo->id, status);
+	else
+	{
+		printf("%ld %d %s\n", timestamp, philo->id, status);
+		sem_post(philo->params->write_sem);
+	}
+}
+
+long	ft_atol(const char *str)
 {
 	long	i;
 	long	s;
@@ -38,27 +70,9 @@ long	ft_atoi(const char *str)
 	return (r * s);
 }
 
-void	define_truths(t_axioms *axioms, char **argv, int argc)
+void	cleanup_semaphores(void)
 {
-	1 && (axioms->philo = ft_atoi(argv[1]), axioms->t_die = ft_atoi(argv[2]));
-	1 && (axioms->t_eat = ft_atoi(argv[3]), axioms->t_sleep = ft_atoi(argv[4]));
-	if (argc == 6)
-	{
-		axioms->eats = ft_atoi(argv[5]);
-		if (axioms->eats < 0)
-		{
-			printf("Invalid input: One of the arguments \
-violates the terms!\n");
-			exit(1);
-		}
-	}
-	else
-		axioms->eats = -1;
-	if (axioms->philo <= 0 || axioms->t_die <= 0
-		|| axioms->t_eat <= 0 || axioms->t_sleep <= 0)
-	{
-		printf("Invalid input: One of the arguments \
-violates the terms!\n");
-		exit(1);
-	}
+	sem_unlink("/philo_forks");
+	sem_unlink("/philo_write");
+	sem_unlink("/philo_stop");
 }
