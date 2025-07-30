@@ -6,7 +6,7 @@
 /*   By: noaziki <noaziki@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/13 11:01:50 by noaziki           #+#    #+#             */
-/*   Updated: 2025/07/15 16:41:07 by noaziki          ###   ########.fr       */
+/*   Updated: 2025/07/30 17:45:07 by noaziki          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,12 @@
 
 int	init_params(t_params *params, int argc, char **argv)
 {
-	params->num_philos = (int)ft_atol(argv[1]);
+	params->num_philos = ft_atol(argv[1]);
 	params->time_to_die = ft_atol(argv[2]);
 	params->time_to_eat = ft_atol(argv[3]);
 	params->time_to_sleep = ft_atol(argv[4]);
 	if (argc == 6)
-		params->num_eats = (int)ft_atol(argv[5]);
+		params->num_eats = ft_atol(argv[5]);
 	else
 		params->num_eats = -1;
 	if (params->num_philos <= 0 || params->time_to_die <= 0
@@ -47,12 +47,12 @@ int	init_semaphores(t_params *params)
 		return (printf("Error: sem_open failed for stop lock.\n"), 1);
 	return (0);
 }
-// Helper function to replace snprintf
+
 void	build_sem_name(char *dest, const char *base, int index)
 {
 	int		i;
 	int		j;
-	char	num_buf[11]; // Max 10 digits for int + null terminator
+	char	num_buf[11];
 	int		k;
 
 	i = 0;
@@ -63,12 +63,10 @@ void	build_sem_name(char *dest, const char *base, int index)
 	}
 	if (index == 0)
 	{
-		dest[i++] = '0';
-		dest[i] = '\0';
+		1 && (dest[i++] = '0', dest[i] = '\0');
 		return ;
 	}
-	j = 0;
-	k = index;
+	1 && (j = 0, k = index);
 	while (k > 0)
 	{
 		num_buf[j++] = (k % 10) + '0';
@@ -81,7 +79,7 @@ void	build_sem_name(char *dest, const char *base, int index)
 
 void	init_philos(t_philo *philos, t_params *params)
 {
-	int	i;
+	long	i;
 
 	i = 0;
 	while (i < params->num_philos)

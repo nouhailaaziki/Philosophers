@@ -6,7 +6,7 @@
 /*   By: noaziki <noaziki@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/13 10:59:25 by noaziki           #+#    #+#             */
-/*   Updated: 2025/07/15 16:38:31 by noaziki          ###   ########.fr       */
+/*   Updated: 2025/07/30 16:48:36 by noaziki          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,11 +26,11 @@
 
 typedef struct s_params
 {
-	int		num_philos;
+	long	num_philos;
 	long	time_to_die;
 	long	time_to_eat;
 	long	time_to_sleep;
-	int		num_eats;
+	long	num_eats;
 	long	start_time;
 	sem_t	*forks_sem;
 	sem_t	*write_sem;

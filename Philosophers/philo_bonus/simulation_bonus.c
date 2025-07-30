@@ -6,7 +6,7 @@
 /*   By: noaziki <noaziki@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/13 11:06:45 by noaziki           #+#    #+#             */
-/*   Updated: 2025/07/15 16:41:49 by noaziki          ###   ########.fr       */
+/*   Updated: 2025/07/30 16:50:02 by noaziki          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	start_simulation(t_philo *philos, t_params *params)
 {
-	int	i;
+	long	i;
 
 	i = 0;
 	while (i < params->num_philos)
