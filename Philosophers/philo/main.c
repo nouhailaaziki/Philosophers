@@ -6,7 +6,7 @@
 /*   By: noaziki <noaziki@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 16:14:35 by noaziki           #+#    #+#             */
-/*   Updated: 2025/07/15 16:50:24 by noaziki          ###   ########.fr       */
+/*   Updated: 2025/08/03 08:46:07 by noaziki          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,8 +41,7 @@ int	main(int argc, char **argv)
 	if (argc != 5 && argc != 6)
 	{
 		ft_putendl_fd("Invalid input: you must provide 4 or 5 arguments!", 2);
-		ft_putendl_fd("Usage: ./philo_bonus num_philos \
-TTD TTE TTS [num_eats]", 2);
+		ft_putendl_fd("Usage: ./philo_bonus NOP TTD TTE TTS [num_eats]", 2);
 		return (1);
 	}
 	memset(&sim, 0, sizeof(t_sim));

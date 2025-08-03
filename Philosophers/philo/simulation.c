@@ -6,7 +6,7 @@
 /*   By: noaziki <noaziki@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/13 01:08:27 by noaziki           #+#    #+#             */
-/*   Updated: 2025/07/15 15:38:42 by noaziki          ###   ########.fr       */
+/*   Updated: 2025/08/03 08:50:47 by noaziki          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,23 +56,30 @@ int	init_simulation(t_sim *sim)
 
 	sim->philos = malloc(sizeof(t_philo) * sim->axioms.philo);
 	if (!sim->philos)
-		return (1);
+		return (perror("malloc(philos) failed"), 1);
 	memset(sim->philos, 0, sizeof(t_philo) * sim->axioms.philo);
 	sim->forks = malloc(sizeof(pthread_mutex_t) * sim->axioms.philo);
 	if (!sim->forks)
-		return (1);
-	pthread_mutex_init(&sim->print_lock, NULL);
-	pthread_mutex_init(&sim->state_lock, NULL);
+		return (free(sim->philos), perror("malloc(forks) failed"), 1);
+	if (pthread_mutex_init(&sim->print_lock, NULL))
+		return (free(sim->philos), free(sim->forks),
+			perror("init(print_lock) failed"), 1);
+	if (pthread_mutex_init(&sim->state_lock, NULL))
+		return (pthread_mutex_destroy(&sim->print_lock),
+			free(sim->philos), free(sim->forks),
+			perror("init(state_lock) failed"), 1);
 	sim->start_time = get_time();
 	i = 0;
 	while (i < sim->axioms.philo)
 	{
-		pthread_mutex_init(&sim->forks[i], NULL);
+		if (pthread_mutex_init(&sim->forks[i], NULL))
+			return (perror("init(fork) failed"), 1);
 		sim->philos[i].id = i + 1;
 		sim->philos[i].last_meal = sim->start_time;
 		sim->philos[i].times_eaten = 0;
 		sim->philos[i].sim = sim;
-		pthread_mutex_init(&sim->philos[i].meal_lock, NULL);
+		if (pthread_mutex_init(&sim->philos[i].meal_lock, NULL))
+			return (perror("init(meal_lock) failed"), 1);
 		i++;
 	}
 	sim->is_running = 1;
@@ -90,6 +97,7 @@ void	run_simulation(t_sim *sim)
 		if (pthread_create(&sim->philos[i].thread, NULL,
 				&philosopher_routine, &sim->philos[i]) != 0)
 		{
+			perror("pthread_create failed");
 			stop_sim(sim);
 			break ;
 		}
@@ -98,10 +106,7 @@ void	run_simulation(t_sim *sim)
 	monitor_philosophers(sim);
 	j = 0;
 	while (j < i)
-	{
-		pthread_join(sim->philos[j].thread, NULL);
-		j++;
-	}
+		pthread_join(sim->philos[j++].thread, NULL);
 }
 
 void	cleanup(t_sim *sim)
@@ -112,20 +117,14 @@ void	cleanup(t_sim *sim)
 	{
 		i = 0;
 		while (i < sim->axioms.philo)
-		{
-			pthread_mutex_destroy(&sim->forks[i]);
-			i++;
-		}
+			pthread_mutex_destroy(&sim->forks[i++]);
 		free(sim->forks);
 	}
 	if (sim->philos)
 	{
 		i = 0;
 		while (i < sim->axioms.philo)
-		{
-			pthread_mutex_destroy(&sim->philos[i].meal_lock);
-			i++;
-		}
+			pthread_mutex_destroy(&sim->philos[i++].meal_lock);
 		free(sim->philos);
 	}
 	pthread_mutex_destroy(&sim->print_lock);
