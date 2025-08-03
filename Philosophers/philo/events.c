@@ -6,7 +6,7 @@
 /*   By: noaziki <noaziki@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/12 12:03:12 by noaziki           #+#    #+#             */
-/*   Updated: 2025/08/03 13:20:48 by noaziki          ###   ########.fr       */
+/*   Updated: 2025/08/03 15:43:14 by noaziki          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ void	print_status(t_philo *philo, const char *status)
 		printf("%ld %d %s\n", \
 			get_time() - philo->sim->start_time, philo->id, status);
 	}
-	else if (is_sim_running(philo->sim) && strcmp(status, "died"))
+	else if (is_sim_running(philo->sim) && ft_strcmp((char *)status, "died"))
 		printf("%ld %d %s\n", \
 			get_time() - philo->sim->start_time, philo->id, status);
 	pthread_mutex_unlock(&philo->sim->print_lock);

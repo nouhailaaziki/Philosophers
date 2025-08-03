@@ -6,7 +6,7 @@
 /*   By: noaziki <noaziki@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 16:14:35 by noaziki           #+#    #+#             */
-/*   Updated: 2025/08/03 08:46:07 by noaziki          ###   ########.fr       */
+/*   Updated: 2025/08/03 15:42:10 by noaziki          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,6 @@ int	define_truths(t_axioms *axioms, char **argv, int argc)
 	}
 	return (0);
 }
-// void f(){system("leaks -q philo");}
-	// atexit(f);
 
 int	main(int argc, char **argv)
 {
