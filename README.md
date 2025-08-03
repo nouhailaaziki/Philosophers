@@ -1,6 +1,20 @@
 # Philosophers
 A project involves simulating multiple philosophers sharing limited resources, using threads and mutexes to ensure synchronization and avoid issues like deadlocks and starvation. It focuses on multithreading and concurrency.
 
+# The Scenario
+You have N philosophers sitting at a table.
+
+Each philosopher alternates between:
+ - Thinking
+
+ - Eating
+
+ - Sleeping
+
+To eat, each philosopher needs 2 forks (left and right), but there's only one fork between each pair.
+
+Each fork is a shared resource (represented with a mutex or semaphore).
+
 # Explanation of keys concepts
 ## What Are Threads?
 If we don’t use threads,
