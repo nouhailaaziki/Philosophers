@@ -6,7 +6,7 @@
 /*   By: noaziki <noaziki@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/13 00:57:53 by noaziki           #+#    #+#             */
-/*   Updated: 2025/08/03 13:54:08 by noaziki          ###   ########.fr       */
+/*   Updated: 2025/08/03 14:02:02 by noaziki          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,8 +82,7 @@ void	*philosopher_routine(void *arg)
 	t_philo	*philo;
 	t_sim	*sim;
 
-	philo = (t_philo *)arg;
-	sim = philo->sim;
+	1 && (philo = (t_philo *)arg, sim = philo->sim);
 	if (sim->axioms.philo == 1)
 	{
 		print_status(philo, "has taken a fork");
@@ -100,8 +99,7 @@ void	*philosopher_routine(void *arg)
 			pthread_mutex_unlock(&philo->meal_lock);
 			break ;
 		}
-		pthread_mutex_unlock(&philo->meal_lock);
-		philosopher_cycle(philo);
+		(pthread_mutex_unlock(&philo->meal_lock), philosopher_cycle(philo));
 		if (sim->axioms.philo % 2 != 0)
 			usleep (1000);
 	}

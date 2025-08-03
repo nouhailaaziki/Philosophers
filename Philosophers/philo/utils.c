@@ -6,11 +6,33 @@
 /*   By: noaziki <noaziki@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 10:18:55 by noaziki           #+#    #+#             */
-/*   Updated: 2025/08/03 10:36:10 by noaziki          ###   ########.fr       */
+/*   Updated: 2025/08/03 14:13:23 by noaziki          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "mindcore.h"
+
+void	cleanup(t_sim *sim)
+{
+	int	i;
+
+	if (sim->forks)
+	{
+		i = 0;
+		while (i < sim->axioms.philo)
+			pthread_mutex_destroy(&sim->forks[i++]);
+		free(sim->forks);
+	}
+	if (sim->philos)
+	{
+		i = 0;
+		while (i < sim->axioms.philo)
+			pthread_mutex_destroy(&sim->philos[i++].meal_lock);
+		free(sim->philos);
+	}
+	pthread_mutex_destroy(&sim->print_lock);
+	pthread_mutex_destroy(&sim->state_lock);
+}
 
 int	ft_strcmp(char *s1, char *s2)
 {
