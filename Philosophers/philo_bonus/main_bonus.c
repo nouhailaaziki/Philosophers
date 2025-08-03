@@ -6,7 +6,7 @@
 /*   By: noaziki <noaziki@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/13 11:01:50 by noaziki           #+#    #+#             */
-/*   Updated: 2025/07/30 17:45:07 by noaziki          ###   ########.fr       */
+/*   Updated: 2025/08/03 13:51:24 by noaziki          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int	init_params(t_params *params, int argc, char **argv)
 		|| params->time_to_eat <= 0 || params->time_to_sleep <= 0
 		|| (argc == 6 && params->num_eats <= 0))
 	{
-		printf("Error: All arguments must be positive integers.\n");
+		ft_putendl_fd("Invalid input: Arguments must be positive numbers.", 2);
 		return (1);
 	}
 	params->start_time = get_time();
@@ -101,8 +101,8 @@ int	main(int argc, char **argv)
 
 	if (argc != 5 && argc != 6)
 	{
-		printf("Error: Invalid number of arguments.\n");
-		printf("Usage: ./philo_bonus num_philos TTD TTE TTS [num_eats]\n");
+		ft_putendl_fd("Invalid input: you must provide 4 or 5 arguments!", 2);
+		ft_putendl_fd("Usage: ./philo_bonus NOP TTD TTE TTS [num_eats]", 2);
 		return (1);
 	}
 	if (init_params(&params, argc, argv) != 0)

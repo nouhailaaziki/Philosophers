@@ -6,7 +6,7 @@
 /*   By: noaziki <noaziki@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/13 00:57:53 by noaziki           #+#    #+#             */
-/*   Updated: 2025/08/03 10:28:52 by noaziki          ###   ########.fr       */
+/*   Updated: 2025/08/03 13:54:08 by noaziki          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,17 @@ void	*philosopher_routine(void *arg)
 	if (philo->id % 2 != 0)
 		usleep(1000);
 	while (is_sim_running(sim))
+	{
+		pthread_mutex_lock(&philo->meal_lock);
+		if (sim->axioms.eats != -1 && philo->times_eaten >= sim->axioms.eats)
+		{
+			pthread_mutex_unlock(&philo->meal_lock);
+			break ;
+		}
+		pthread_mutex_unlock(&philo->meal_lock);
 		philosopher_cycle(philo);
+		if (sim->axioms.philo % 2 != 0)
+			usleep (1000);
+	}
 	return (NULL);
 }
