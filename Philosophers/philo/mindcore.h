@@ -6,7 +6,7 @@
 /*   By: noaziki <noaziki@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 16:13:04 by noaziki           #+#    #+#             */
-/*   Updated: 2025/07/15 16:50:24 by noaziki          ###   ########.fr       */
+/*   Updated: 2025/08/03 10:36:34 by noaziki          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ long	ft_atol(const char *str);
 void	run_simulation(t_sim *sim);
 int		is_sim_running(t_sim *sim);
 int		init_simulation(t_sim *sim);
+int		ft_strcmp(char *s1, char *s2);
 void	ft_putendl_fd(char *s, int fd);
 void	*philosopher_routine(void *arg);
 void	precise_usleep(long milliseconds, t_sim *sim);

@@ -6,7 +6,7 @@
 /*   By: noaziki <noaziki@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/12 12:03:12 by noaziki           #+#    #+#             */
-/*   Updated: 2025/07/30 17:37:39 by noaziki          ###   ########.fr       */
+/*   Updated: 2025/08/03 10:36:55 by noaziki          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,13 @@ void	stop_sim(t_sim *sim)
 void	print_status(t_philo *philo, const char *status)
 {
 	pthread_mutex_lock(&philo->sim->print_lock);
-	if (is_sim_running(philo->sim))
+	if (!ft_strcmp(status, "died"))
+	{
+		stop_sim(philo->sim);
+		printf("%ld %d %s\n", \
+			get_time() - philo->sim->start_time, philo->id, status);
+	}
+	else if (is_sim_running(philo->sim) && strcmp(status, "died"))
 		printf("%ld %d %s\n", \
 			get_time() - philo->sim->start_time, philo->id, status);
 	pthread_mutex_unlock(&philo->sim->print_lock);

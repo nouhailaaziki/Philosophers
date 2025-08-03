@@ -6,11 +6,23 @@
 /*   By: noaziki <noaziki@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 10:18:55 by noaziki           #+#    #+#             */
-/*   Updated: 2025/07/15 16:49:57 by noaziki          ###   ########.fr       */
+/*   Updated: 2025/08/03 10:36:10 by noaziki          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "mindcore.h"
+
+int	ft_strcmp(char *s1, char *s2)
+{
+	int	i;
+
+	i = 0;
+	if (!s1 || !s2)
+		return (-1);
+	while (s1[i] != '\0' && s1[i] == s2[i])
+		i++;
+	return (s1[i] - s2[i]);
+}
 
 void	ft_putendl_fd(char *s, int fd)
 {
