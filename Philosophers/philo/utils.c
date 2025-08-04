@@ -6,7 +6,7 @@
 /*   By: noaziki <noaziki@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 10:18:55 by noaziki           #+#    #+#             */
-/*   Updated: 2025/08/03 14:13:23 by noaziki          ###   ########.fr       */
+/*   Updated: 2025/08/04 09:48:49 by noaziki          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,8 @@ long	ft_atol(const char *str)
 		if ((r >= 2147483647 && s == 1) || (r > 2147483647 && s == -1))
 			return (-1);
 	}
+	while (str[i] == ' ')
+		i++;
 	if (str[i])
 		return (-1);
 	return (r * s);

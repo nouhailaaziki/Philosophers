@@ -7,7 +7,7 @@ GREEN = \033[0;32m
 RED = \033[0;31m
 RESET = \033[0m
 
-BONUS =	routine_bonus.c simulation_bonus.c main_bonus.c utils_bonus.c
+BONUS =	routine_bonus.c simulation_bonus.c main_bonus.c utils_bonus.c events_bonus.c
 
 OBJB = $(BONUS:.c=.o)
 

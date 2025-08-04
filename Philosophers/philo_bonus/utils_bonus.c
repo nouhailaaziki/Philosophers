@@ -6,42 +6,25 @@
 /*   By: noaziki <noaziki@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/13 11:07:27 by noaziki           #+#    #+#             */
-/*   Updated: 2025/07/15 16:50:56 by noaziki          ###   ########.fr       */
+/*   Updated: 2025/08/04 09:49:05 by noaziki          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "mindcore_bonus.h"
 
-long	get_time(void)
+void	ft_putendl_fd(char *s, int fd)
 {
-	struct timeval	tv;
+	size_t	i;
 
-	gettimeofday(&tv, NULL);
-	return ((tv.tv_sec * 1000) + (tv.tv_usec / 1000));
-}
-
-void	precise_usleep(long duration_ms)
-{
-	long	start_time;
-
-	start_time = get_time();
-	while ((get_time() - start_time) < duration_ms)
-		usleep(50);
-}
-
-void	print_status(t_philo *philo, char *status, int is_dead)
-{
-	long	timestamp;
-
-	sem_wait(philo->params->write_sem);
-	timestamp = get_time() - philo->params->start_time;
-	if (is_dead)
-		printf("%ld %d %s\n", timestamp, philo->id, status);
-	else
+	if (!s)
+		return ;
+	i = 0;
+	while (s[i] != '\0')
 	{
-		printf("%ld %d %s\n", timestamp, philo->id, status);
-		sem_post(philo->params->write_sem);
+		write(fd, &s[i], 1);
+		i++;
 	}
+	write(fd, "\n", 1);
 }
 
 long	ft_atol(const char *str)
@@ -65,6 +48,8 @@ long	ft_atol(const char *str)
 		if ((r >= 2147483647 && s == 1) || (r > 2147483647 && s == -1))
 			return (-1);
 	}
+	while (str[i] == ' ')
+		i++;
 	if (str[i])
 		return (-1);
 	return (r * s);

@@ -6,7 +6,7 @@
 /*   By: noaziki <noaziki@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/13 10:59:25 by noaziki           #+#    #+#             */
-/*   Updated: 2025/07/30 16:48:36 by noaziki          ###   ########.fr       */
+/*   Updated: 2025/08/04 09:41:51 by noaziki          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ typedef struct s_philo
 long	get_time(void);
 void	cleanup_semaphores(void);
 long	ft_atol(const char *str);
+void	ft_putendl_fd(char *s, int fd);
 void	precise_usleep(long duration_ms);
 void	philosopher_routine(t_philo *philo);
 void	stop_simulation(t_philo *philos, t_params *params);
