@@ -1,6 +1,27 @@
 # Philosophers
 A project involves simulating multiple philosophers sharing limited resources, using threads and mutexes to ensure synchronization and avoid issues like deadlocks and starvation. It focuses on multithreading and concurrency.
 
+# Table of Contents
+
+- [The Scenario](#the-scenario)
+- [Explanation of Keys Concepts](#explanation-of-keys-concepts)
+- [What Are Threads?](#what-are-threads)
+- [Why Do We Use Threads?](#why-do-we-use-threads)
+- [What Is a Mutex?](#what-is-a-mutex)
+- [Why Do We Need Mutex?](#why-do-we-need-mutex)
+- [Where Mutexes Work?](#where-mutexes-work)
+- [Explanation of Some Staff](#explanation-of-some-staff)
+- [Bonus Part: Philosophers Using Processes and Semaphores](#bonus-part-philosophers-using-processes-and-semaphores)
+- [What Is a Process?](#what-is-a-process)
+- [Threads vs Processes](#threads-vs-processes)
+- [What Is a Semaphore?](#what-is-a-semaphore)
+- [Why Use Semaphores?](#why-use-semaphores)
+- [If You Don't Use Semaphores](#if-you-dont-use-semaphores)
+- [Mutex vs Semaphore](#mutex-vs-semaphore)
+- [Common Semaphores in Bonus](#common-semaphores-in-bonus)
+- [Bonus Considerations](#bonus-considerations)
+
+
 # The Scenario
 You have N philosophers sitting at a table.
 
@@ -145,3 +166,120 @@ When you’re finished using mutexes (e.g., end of your program, simulation is o
 Mutexes are managed by the OS; if you don’t destroy them, you might leave behind unnecessary resources or memory usage.
 
 That’s especially relevant if you create a lot of mutexes dynamically
+
+---
+
+# BONUS Part: Philosophers Using Processes and Semaphores
+## What’s Different?
+In the bonus version, instead of using threads, we use processes and semaphores.
+
+## What Is a Process?
+A process is an independent program instance with its own memory.
+
+Unlike threads:
+
+Processes don’t share memory.
+
+Safer but more expensive (more system resources).
+
+Each philosopher becomes a separate process.
+
+## Threads vs Processes: The Key Differences
+
+| Feature                | **Threads**                                                    | **Processes**                                                  |
+|------------------------|----------------------------------------------------------------|----------------------------------------------------------------|
+| **Definition**         | A lightweight unit of execution within a **single process**     | A heavyweight, independent instance of a **program**           |
+| **Memory Space**       | **Shared memory** among threads                                 | **Separate memory** for each process                           |
+| **Creation Speed**     | Faster (lighter, less overhead)                                 | Slower (heavier, more setup)                                   |
+| **Communication**      | Easy via **shared variables**                                   | Requires **IPC** (e.g., pipes, semaphores, shared memory)      |
+| **Crash Impact**       | If one thread crashes, **it may affect the whole process**      | If one process crashes, **others remain unaffected**           |
+| **Isolation**          | Low — shared memory means less safety                           | High — processes are isolated and safer                        |
+| **Resource Usage**     | Less (shares memory and code)                                   | More (each has its own memory and code)                        |
+| **Use Case (Philo)**   | Used in the **mandatory part**                                  | Used in the **bonus part**                                     |
+| **Synchronization Tool**| **Mutexes** (for shared data protection)                      | **Semaphores** (for inter-process communication)               |
+| **Scheduling**         | Handled by the OS scheduler; usually **faster to context switch** | Also scheduled by OS; **heavier context switch**             |
+
+## What Is a Semaphore?
+A semaphore is like a traffic light 🚦.
+
+It controls access to a resource by keeping a counter.
+
+When the counter is above 0 → access allowed.
+
+When it hits 0 → new processes must wait.
+
+## Why Use Semaphores?
+Since processes don’t share memory like threads, we need another way to coordinate access to shared things (like forks, printing to stdout).
+
+Semaphores allow us to:
+
+Let only a limited number of philosophers pick up forks.
+
+Avoid deadlocks (by limiting access or ordering who eats).
+
+Sync outputs (so logs don’t print at the same time).
+
+## If you don’t use semaphores with multi-processes:
+ ### 1. CRASH or behave unpredictably
+Processes do not share memory like threads.
+
+So without semaphores, each philosopher process works blindly, without knowing what the others are doing.
+
+They’ll:
+
+Pick up the same forks at the same time
+
+Overlap prints
+
+Mess up death detection and eating counts
+
+ ### 2. Forks won’t be protected (→ double grabbing)
+Each philosopher will try to access the shared forks variable directly.
+
+This causes multiple philosophers to grab the same fork at the same time, because there’s no protection mechanism.
+
+- Result: Unrealistic or broken simulation — sometimes a philosopher eats without two forks, which breaks the logic.
+
+### Final Answer:
+If you don’t use semaphores in the bonus part, your program will break.
+You’ll face:
+
+- Race conditions
+
+- Data corruption
+
+- Deadlocks
+
+- Garbage output
+
+- Memory leaks
+
+- Failed logic
+
+Semaphores are not optional in the bonus part — they are the backbone of inter-process coordination.
+
+## Mutex vs Semaphore: The Key Differences
+
+| Feature           | Mutex                                                      | Semaphore                                                         |
+|------------------|-------------------------------------------------------------|--------------------------------------------------------------------|
+| **Basic Idea**    | A lock used to protect a single shared resource            | A signaling mechanism to manage access to multiple instances of a resource |
+| **Value Range**   | Only 0 or 1 (locked/unlocked)                              | Any non-negative integer ≥ 0                                       |
+| **Ownership**     | Only the thread that locks it can unlock it               | Any process/thread can increment or decrement it                   |
+| **Use Case**      | Synchronizing threads within the same process              | Synchronizing multiple processes or threads                        |
+| **Deadlock Risk** | Higher if not used carefully                               | Less direct, but misuse can still cause issues                     |
+| **Blocking Behavior** | Blocks other threads if already locked               | Blocks when the value is 0                                         |
+| **Shared Memory?**| No (used inside a process with shared memory)              | Yes (can be used across multiple processes)                        |
+
+## Common Semaphores in Bonus
+sem_forks: Limits access to the forks.
+
+sem_print: Prevents printing overlap.
+
+sem_meal_check: Ensures accurate monitoring of meals.
+
+## Bonus Considerations
+Use fork() to create philosopher processes.
+
+Set up and unlink semaphores properly to avoid memory leaks.
+
+Handle signals and child process termination gracefully.
