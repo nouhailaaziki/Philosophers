@@ -14,3 +14,21 @@
 ./philo 5 800 200 200                              live
 ./philo 5 800 200 200 7 | grep eating | wc -l      live
 ./philo 80 400 200 200 (run it multuple times)     die
+
+
+./philo_bonus 2 400 200 200                              live
+./philo_bonus 4 120 60 60                                live
+./philo_bonus 2 300 200 200                              die
+./philo_bonus 3 400 200 200                              die
+./philo_bonus 3 600 200 200                              live
+./philo_bonus 1 800 200 200                              die
+./philo_bonus 4 310 200 100                              die
+./philo_bonus 4 310 100 200                              live
+./philo_bonus 4 410 200 200                              live
+./philo_bonus 50 400 200 200                             die
+./philo_bonus 100 800 200 200                            live
+./philo_bonus 5 310 100 200                              live
+./philo_bonus 5 310 200 100                              die
+./philo_bonus 5 800 200 200                              live
+./philo_bonus 5 800 200 200 7 | grep eating | wc -l      live
+./philo_bonus 80 400 200 200 (run it multuple times)     die
