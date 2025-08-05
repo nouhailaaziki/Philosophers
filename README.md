@@ -91,6 +91,8 @@ A mutex (mutual exclusion lock) is a synchronization tool used inside a single p
 
 It’s specifically used between threads within that same process.
 
+![tldraw](utilities/Why_Mutex_Matters_in_Multithreading.PNG)
+
 # Explanation of some staff
 ### pthread_mutex_t:
 is a data type in the POSIX threads library (pthread) used to represent a mutex, which is a synchronization primitive that allows threads to protect shared data from concurrent access. It is a key component in multi-threaded programming for ensuring data consistency and preventing race conditions.
