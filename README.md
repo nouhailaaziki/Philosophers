@@ -36,6 +36,68 @@ To eat, each philosopher needs 2 forks (left and right), but there's only one fo
 Each fork is a shared resource (represented with a mutex or semaphore).
 
 # Explanation of keys concepts
+## Deadlock
+### Definition:
+A deadlock happens when two or more threads (or processes) are waiting for each other to release resources, but none of them can proceed because they’re stuck in a circular wait.
+
+### Example:
+Imagine two threads:
+
+- Thread A locks mutex 1, then tries to lock mutex 2
+
+- Thread B locks mutex 2, then tries to lock mutex 1
+
+Now:
+```rust
+Thread A is waiting for mutex 2 (held by B)
+
+Thread B is waiting for mutex 1 (held by A)
+```
+
+Result: Both are stuck. This is deadlock.
+
+```rust
+Thread A: lock(mutex1) ---> waits for mutex2
+Thread B: lock(mutex2) ---> waits for mutex1
+```
+They are waiting forever for each other.
+
+## Race Condition
+### Definition:
+A race condition occurs when two or more threads access shared data at the same time, and the final result depends on the order of their execution.
+
+### Example:
+Suppose you have a global counter:
+
+```c
+int counter = 0;
+
+void* increment(void* arg) {
+    counter++;
+}
+```
+If two threads run this at the same time, the ++ operation might conflict:
+
+- Thread 1 reads counter = 0
+
+- Thread 2 reads counter = 0
+
+- Both increment and write 1
+
+ !! Expected: 2 → Got: 1
+
+### Why?
+Because counter++ is not atomic. It involves:
+
+Reading the value
+
+Incrementing it
+
+Writing it back
+
+If not synchronized (e.g., using mutex), threads can interfere.
+
+
 ## What Are Threads?
 If we don’t use threads,
 our program will do things one by one—step after step.
