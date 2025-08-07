@@ -18,8 +18,7 @@ A project involves simulating multiple philosophers sharing limited resources, u
 - [Why Use Semaphores?](#why-use-semaphores)
 - [If You Don’t Use Semaphores with Multi-Processes](#if-you-dont-use-semaphores-with-multi-processes)
 - [Mutex vs Semaphore: The Key Differences](#mutex-vs-semaphore-the-key-differences)
-- [Common Semaphores in Bonus](#common-semaphores-in-bonus)
-- [Bonus Considerations](#bonus-considerations)
+- [Explanation of some used fonctions in bonus](#explanation-of-some-used-fonctions-in-bonus)
 
 
 # The Scenario
@@ -272,7 +271,7 @@ Semaphores are not optional in the bonus part — they are the backbone of inter
 | **Blocking Behavior** | Blocks other threads if already locked               | Blocks when the value is 0                                         |
 | **Shared Memory?**| No (used inside a process with shared memory)              | Yes (can be used across multiple processes)                        |
 
-## Explanation of some used fonctions
+## Explanation of some used fonctions in bonus
 
 ### pthread_detach()
 Purpose: Detach a thread so its resources are automatically released when it finishes.
