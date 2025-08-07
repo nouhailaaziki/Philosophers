@@ -213,8 +213,11 @@ Why Would pthread_create() Fail?
 4️⃣ Invalid Arguments.
 
 ### pthread_join(): 
-Blocks the specified thread until other threads finish their routine.
-waits for all threads that were successfully created .
+pthread_join(thread, NULL) waits for the specified thread to finish execution.
+
+It blocks the calling thread (usually the main thread) until the thread terminates.
+
+The second argument NULL means you don’t care about the thread’s return value.
 
 ### pthread_mutex_destroy():
 It frees the system resources that were reserved for that mutex.
