@@ -272,16 +272,93 @@ Semaphores are not optional in the bonus part — they are the backbone of inter
 | **Blocking Behavior** | Blocks other threads if already locked               | Blocks when the value is 0                                         |
 | **Shared Memory?**| No (used inside a process with shared memory)              | Yes (can be used across multiple processes)                        |
 
-## Common Semaphores in Bonus
-sem_forks: Limits access to the forks.
+## Explanation of some used fonctions
 
-sem_print: Prevents printing overlap.
+### pthread_detach()
+Purpose: Detach a thread so its resources are automatically released when it finishes.
 
-sem_meal_check: Ensures accurate monitoring of meals.
+```c
+int pthread_detach(pthread_t thread);
+```
+Usage:
 
-## Bonus Considerations
-Use fork() to create philosopher processes.
+You don't need to pthread_join a detached thread.
 
-Set up and unlink semaphores properly to avoid memory leaks.
+Use this when you don’t care about the return value of the thread.
 
-Handle signals and child process termination gracefully.
+### waitpid()
+Purpose: Wait for a specific child process to terminate.
+
+```c
+pid_t waitpid(pid_t pid, int *status, int options);
+```
+Usage:
+
+pid = child process ID.
+
+status will contain exit info.
+
+Use -1 to wait for any child process.
+
+Can be non-blocking with WNOHANG.
+
+### sem_open()
+Purpose: Opens or creates a named semaphore.
+
+```c
+sem_t *sem_open(const char *name, int oflag, mode_t mode, unsigned int value);
+```
+Usage:
+
+name is like a file path (e.g., "/sem_name").
+
+If O_CREAT is passed in oflag, creates the semaphore with initial value.
+
+```c
+sem_t *sem = sem_open("/mysem", O_CREAT, 0644, 1);
+```
+### sem_close()
+Purpose: Closes a named semaphore.
+
+```c
+int sem_close(sem_t *sem);
+```
+Usage:
+
+Doesn't remove the semaphore; just closes your process’s access to it.
+
+### sem_post()
+Purpose: Increments (unlocks) the semaphore.
+
+```c
+int sem_post(sem_t *sem);
+```
+Usage:
+
+Signals that a resource is available.
+
+Increments the value; wakes up waiting processes if any.
+
+### sem_wait()
+Purpose: Decrements (locks) the semaphore.
+
+```c
+int sem_wait(sem_t *sem);
+```
+Usage:
+
+If the semaphore’s value is 0, the call blocks until it becomes > 0.
+
+Otherwise, it decrements the value and continues.
+
+### sem_unlink()
+Purpose: Removes a named semaphore from the system.
+
+```c
+int sem_unlink(const char *name);
+```
+Usage:
+
+Use this when you're done with the semaphore forever.
+
+Think of it like deleting a file from the system.
