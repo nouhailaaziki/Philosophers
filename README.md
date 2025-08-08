@@ -3,23 +3,40 @@ A project involves simulating multiple philosophers sharing limited resources, u
 
 # Table of Contents
 
-- [The Scenario](#the-scenario)
-- [Explanation of Keys Concepts](#explanation-of-keys-concepts)
-- [What Are Threads?](#what-are-threads)
-- [Why Do We Use Threads?](#why-do-we-use-threads)
-- [What Is a Mutex?](#what-is-a-mutex)
-- [Why Do We Need Mutex?](#why-do-we-need-mutex)
-- [Where Mutexes Work?](#where-mutexes-work)
-- [Explanation of Some Staff](#explanation-of-some-staff)
-- [Bonus Part: Philosophers Using Processes and Semaphores](#bonus-part-philosophers-using-processes-and-semaphores)
-- [What Is a Process?](#what-is-a-process)
-- [Threads vs Processes: The Key Differences](#threads-vs-processes-the-key-differences)
-- [What Is a Semaphore?](#what-is-a-semaphore)
-- [Why Use Semaphores?](#why-use-semaphores)
-- [If You Don’t Use Semaphores with Multi-Processes](#if-you-dont-use-semaphores-with-multi-processes)
-- [Mutex vs Semaphore: The Key Differences](#mutex-vs-semaphore-the-key-differences)
-- [Explanation of some used fonctions in bonus](#explanation-of-some-used-fonctions-in-bonus)
-
+1. [The Scenario](#the-scenario)  
+2. [Explanation of Key Concepts](#explanation-of-keys-concepts)  
+   - [Deadlock](#deadlock)  
+   - [Race Condition](#race-condition)  
+   - [Starvation](#starvation)  
+   - [What Are Threads?](#what-are-threads)  
+   - [Why Do We Use Threads?](#why-do-we-use-threads)  
+   - [!! One Important Thing to Know](#-one-important-thing-to-know)  
+   - [What Is a Mutex?](#what-is-a-mutex)  
+   - [Why Do We Need mutex?](#why-do-we-need-mutex)  
+   - [Where Mutexes Work?](#where-mutexes-work)  
+3. [Explanation of Some Staff](#explanation-of-some-staff)  
+   - [`pthread_mutex_t`](#pthread_mutex_t)  
+   - [`pthread_mutex_init()`](#pthread_mutex_init)  
+   - [`gettimeofday()`](#gettimeofday)  
+   - [`pthread_create()`](#pthread_create)  
+   - [`pthread_join()`](#pthread_join)  
+   - [`pthread_mutex_destroy()`](#pthread_mutex_destroy)  
+4. [BONUS Part: Philosophers Using Processes and Semaphores](#bonus-part-philosophers-using-processes-and-semaphores)  
+   - [What’s Different?](#whats-different)  
+   - [What Is a Process?](#what-is-a-process)  
+   - [Threads vs Processes: The Key Differences](#threads-vs-processes-the-key-differences)  
+   - [What Is a Semaphore?](#what-is-a-semaphore)  
+   - [Why Use Semaphores?](#why-use-semaphores)  
+   - [If You Don’t Use Semaphores with Multi-Processes](#if-you-dont-use-semaphores-with-multi-processes)  
+   - [Mutex vs Semaphore: The Key Differences](#mutex-vs-semaphore-the-key-differences)  
+   - [Explanation of Some Used Functions in Bonus](#explanation-of-some-used-fonctions-in-bonus)  
+     - [`pthread_detach()`](#pthread_detach)  
+     - [`waitpid()`](#waitpid)  
+     - [`sem_open()`](#sem_open)  
+     - [`sem_close()`](#sem_close)  
+     - [`sem_post()`](#sem_post)  
+     - [`sem_wait()`](#sem_wait)  
+     - [`sem_unlink()`](#sem_unlink)
 
 # The Scenario
 You have N philosophers sitting at a table.
@@ -84,19 +101,37 @@ If two threads run this at the same time, the ++ operation might conflict:
 
 - Both increment and write 1
 
- !! Expected: 2 → Got: 1
+- !! Expected: 2 → Got: 1
 
 ### Why?
 Because counter++ is not atomic. It involves:
 
-Reading the value
+1. Reading the value
 
-Incrementing it
+2. Incrementing it
 
-Writing it back
+3. Writing it back
 
 If not synchronized (e.g., using mutex), threads can interfere.
 
+## Starvation
+
+### Definition:
+Starvation is a situation in concurrent programming where a thread or process waits indefinitely to get access to a resource because other threads are constantly prioritized over it.
+
+### Quick Example:
+If a scheduling algorithm always gives priority to high-priority threads, then a low-priority thread may never get CPU time — that’s starvation.
+
+### Key Idea:
+```Starvation = "Always waiting, never served."```
+
+It usually happens because of:
+
+- Biased scheduling (priority-based)
+
+- Resource hogging
+
+- Poor synchronization (like in mutex or semaphore use)
 
 ## What Are Threads?
 If we don’t use threads,
