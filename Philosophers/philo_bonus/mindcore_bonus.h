@@ -18,7 +18,6 @@
 # include <unistd.h>
 # include <sys/time.h>
 # include <sys/wait.h>
-# include <sys/stat.h>
 # include <fcntl.h>
 # include <pthread.h>
 # include <semaphore.h>
